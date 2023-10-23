@@ -1,0 +1,46 @@
+.container-navbar {
+    background-color: #FFFFED;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+
+.logo-navbar {
+    width: 150px;
+    cursor: pointer;
+}
+
+.item {
+    font-size: 1.2rem;
+    font-family: 'Abel', sans-serif;
+    cursor: pointer;
+}
+
+.item:hover {
+    font-weight: bold;
+}
+
+.main-items {
+    display: flex;
+    margin-left: 20px;
+    gap: 20px;
+}
+
+.user-quit-items {
+    gap: 20px;
+    display: flex;
+    flex-direction: row;
+    width: 65%;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.orange-line {
+    background-color: #F05D23;
+    height: 5px;
+}
