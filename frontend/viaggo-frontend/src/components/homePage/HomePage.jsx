@@ -152,11 +152,11 @@ const HomePage = ({goToLogin}) => {
             <Box sx={style_holerite}>
                 
                 <div className="holerite-modal">
-                    <h1>Holerite</h1>
+                    <h1>Holerites de {user.name}</h1>
                     <div className="holerite-text">
                         <h2>Digite uma data:</h2>
                         <div className="date-selection">
-                            <input className="year-input" type="text" placeholder="ano..." onChange={(event)=>{setAno(event.target.value)}}/>
+                            <input className="year-input" type="text" placeholder="Digite o ano desejado" onChange={(event)=>{setAno(event.target.value)}}/>
                             <select className="month-selector" onChange={(event) => {setMes(event.target.value)}}>
                                 <option value="01">Janeiro</option>
                                 <option value="02">Fevereiro</option>
