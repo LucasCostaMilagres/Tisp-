@@ -1,6 +1,7 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/providers/AuthProvider";
+import logo from "../../assets/logo.png";
 import "./style.css";
 
 const LoginInputs = () => {
@@ -37,6 +38,7 @@ const LoginInputs = () => {
 
     return <>
         <header className="titles-container">
+            <img src={logo} className="logo" alt="Logo TISP" />
             <h1 className="welcome-title">SEJA BEM VINDO</h1>
             <h2 className="title">FAÇA SEU LOGIN</h2>
         </header>

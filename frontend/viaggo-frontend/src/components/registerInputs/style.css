@@ -11,21 +11,11 @@
 .card-container {
   display: flex;
   flex-direction: row;
-  width: 1023px;
-  height: 536px;
-  border-radius: 40px;
-  background-color: #f8f8dc;
-  border-style: solid;
-  border-color: #000;
-  border-width: 5px;
-}
-
-figure.logo-container {
-  width: 42.72%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  width: 650px;
+  height: 700px;
+  background-color: #29056b;
   align-items: center;
+  justify-content: center;
 }
 
 .voltar{
@@ -34,19 +24,20 @@ figure.logo-container {
   text-align: left;
   width: 90%;
   border-radius: 15px;
-  background-color: #4307b2;
+  background-color: #29056b;
   border: none;
   transition: all 0.2s ease-in;
   cursor: pointer;
+  color: #ece9e8;
 }
 
-.logo2 {
-  margin-top: 9.2%;
+.logo {
+  margin-top: 0px;
+  margin-bottom: 10%;
+  width: 60%;
+  height: 45%;
 }
 
-.barCode2 {
-  margin-top: 20%;
-}
 
 
 .details-container {
@@ -54,35 +45,6 @@ figure.logo-container {
   flex-direction: column;
   align-items: center;
 }
-
-.hole1 {
-  width: 50px;
-  height: 50px;
-  border-radius: 100px;
-  z-index: 10;
-  background-color: #004071;
-  position: relative;
-  top: -25px;
-}
-
-.hole2 {
-  width: 50px;
-  height: 50px;
-  border-radius: 100px;
-  background-color: #004071;
-  position: relative;
-  bottom: -25px
-}
-
-.line {
-  position: relative;
-  border-left: 5px dashed #000000;
-  border-collapse: separate;
-  border-spacing: 10px;
-  height: 485px;
-  flex: 1;
-}
-
 
 main.data-container {
   width: 57.28%;
@@ -94,7 +56,6 @@ main.data-container {
 }
 
 header.titles-container {
-  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -102,7 +63,7 @@ header.titles-container {
 }
 
 .title {
-  color: #F05D23;
+  color: #ece9e8;
   font-size: 2rem;
   margin: 0;
 }
@@ -129,25 +90,25 @@ section.login-container {
   border-right: 0;
   background: none;
   height: 30px;
-  border-bottom: 3px solid #004071;
+  border-bottom: 3px solid #4b8ce0;
   font-size: 1.5rem;
   font-family: 'Abel', sans-serif;
   outline: none;
-  color: #000;
+  color: #ece9e8;
 }
 
 ::placeholder {
-  color: #004071;
+  color: #ece9e8;
   opacity: 1;
 }
 
 ::-ms-input-placeholder {
-  color: #004071;
+  color: #ece9e8;
 }
 
 .button-container3 {
   width: 100%;
-  margin-top: 48.6px;
+  margin-top: 80px;
   display: flex;
   justify-content: center;
 }
@@ -157,8 +118,9 @@ section.login-container {
   width: 320px;
   height: 65px;
   border-radius: 25px;
-  background-color: #F05D23;
-  color: #fff;
+  background-color: #4b8ce0;
+  color: #ece9e8;
   border: none;
   font-size: 1.8rem;
+  margin-bottom: 8%;
 }

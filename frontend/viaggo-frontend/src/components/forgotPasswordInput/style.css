@@ -4,14 +4,15 @@
   text-align: left;
   width: 90%;
   border-radius: 15px;
-  background-color: #4307b2;
+  background-color: #29056b;
   border: none;
   cursor: pointer;
+  color: #ece9e8;
   transition: all 0.2s ease-in;
 }
 
 header.titles-container {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,13 +21,13 @@ header.titles-container {
 
 .welcome-title {
   margin: 0;
-  color: #004071;
+  color: #ece9e8;;
   font-size: 2.8rem;
   font-weight: 300;
 }
 
 .title {
-  color: #F05D23;
+  color: #4b8ce0;
   font-size: 2rem;
   margin: 0;
 }
