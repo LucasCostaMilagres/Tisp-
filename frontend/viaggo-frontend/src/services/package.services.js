@@ -64,3 +64,14 @@ export const updatePackageById = async (id, newData) => {
     }
 };
 
+export const getHoleriteByUserIdAndDate = async (userId, date) => {
+    const _endpoint = `/get-holerite-by-user-id-and-date?user_id=${userId}&date=${date}`;
+    try {
+        const response = await axios.get(_baseUrl + _endpoint);
+        if (response.status === 200) {
+            return response.data; // Retorna o "holerite" encontrado
+        }
+    } catch (error) {
+        return error.response.data; // Retorna a mensagem de erro se houver
+    }
+}

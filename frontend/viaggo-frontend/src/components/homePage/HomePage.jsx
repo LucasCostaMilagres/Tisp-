@@ -1,6 +1,7 @@
 import { Box, Modal } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getAllPackages, getPackageById, deletePackageById, updatePackageById } from "../../services/package.services";
+import { getAllPackages, getHoleriteByUserIdAndDate, deletePackageById, updatePackageById } from "../../services/package.services";
+import { getUserById } from "../../services/user.services";
 import "./style.css";
 import { FaTrash, FaPlaneArrival, FaPlaneDeparture} from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -8,7 +9,7 @@ import { GrUpdate } from 'react-icons/gr';
 import { BiSolidPencil, BiLogOut } from 'react-icons/bi';
 import { toast } from "react-toastify";
 import avatar from "../../assets/avatarIcon.png"
-import holerite from "../../assets/holeriteIcon.png"
+import holeriteIcon from "../../assets/holeriteIcon.png"
 import logo from "../../assets/logo.png"
 import background from "../../assets/background.png"
 // import { getLoggedIn } from "../../services/user.services";
@@ -29,11 +30,23 @@ const HomePage = ({goToLogin}) => {
     const [imageUrl, setImageUrl] = useState('');
 
     const [user, setUser] = useState('');
+    const [holerite, setHolerite] = useState('');
+
+    const [mes, setMes] = useState('');
+    const [ano, setAno] = useState('');
 
     useEffect(() => {
         const requestData = async () => {
             const response = await getAllPackages();
             setPackages(response);
+
+            // -------- Setando user logado --------
+            const userLoggedIn = await getUserById(2);
+            setUser(userLoggedIn);
+
+            // // -------- Setando holerite --------
+            // const holeriteMockada = await getHoleriteByUserIdAndDate(1,"01-03-2023");
+            // setHolerite(holeriteMockada);
         };
 
         requestData();
@@ -41,43 +54,20 @@ const HomePage = ({goToLogin}) => {
 
 
     const handleClick = async (id) => {
-        // const response = await getPackageById(id);
-        // setPackagDetail(response);
         setProfileClicked(true)
     };
     
-    
-    // const handleDelete = async (id) => {
-    //     setPackageClicked(false);
-    //     const response = await deletePackageById(id);
-    //     setItemDeleted(!itemDeleted);
-    //     toast.success(response)
-    // };
+    const handleHoleriteSearch = async () => {
+        const mesStr = mes.toString();
+        const anoStr = ano.toString();
 
-    // const handleSubmit = async (event) => {
+        console.log("Mês:", mesStr);
+        console.log("Ano:", anoStr);
+        const holeriteSearched = await getHoleriteByUserIdAndDate(user.id,`01-${mesStr}-${anoStr}`);
+        setHolerite(holeriteSearched);
+    }
 
-    //     event.preventDefault();
-    //     const body = {
-    //         name: name,
-    //         data_ida: dataIda,
-    //         data_volta: dataVolta,
-    //         details: details,
-    //         image_url: imageUrl
-    //     }
-    //     const response = await updatePackageById(packageDetail.id, body);
-    //     console.log(response);
-    //     console.log(body);
-    //     setItemUpdated(!itemUpdated);
-    //     if(response.status === 200){
-    //         toast.success(response.data);
-    //         setUpdateClicked(false);
-    //         close();
-    //     }
-    //     else{
-    //         toast.error(response.data);
-    //     }
-        
-    // };
+
 
     const handleProfile = async () => {
         setProfileClicked(true)
@@ -122,7 +112,7 @@ const HomePage = ({goToLogin}) => {
             </div>
             <div className="item" onClick={handleHolerite}>
                 <div className="item-topic">
-                    <img src={holerite} className="holerite" alt="holeriteIcon" height={200} width={200}/>
+                    <img src={holeriteIcon} className="holerite" alt="holeriteIcon" height={200} width={200}/>
                     <h1>HOLERITE</h1>
                 </div>
             </div>
@@ -144,11 +134,11 @@ const HomePage = ({goToLogin}) => {
                     <div className="profile-text">
                         <h1>Dados do Usuário</h1>
                         <h2>Nome:</h2>
-                        <p>Felipe Matos Silvieri</p>
+                        <p>{user.name}</p>
                         <h2>Email:</h2>
-                        <p>felipesilvieri@yahoo.com</p>
+                        <p>{user.email}</p>
                         <h2>CPF:</h2>
-                        <p>521.240.288-39</p>
+                        <p>{user.cpf}</p>
                     </div>
                 </div>
             </Box>
@@ -164,12 +154,55 @@ const HomePage = ({goToLogin}) => {
                 
                 <div className="holerite-modal">
                     <h1>Holerite</h1>
+                    <div className="holerite-text">
+                        <h2>Digite uma data:</h2>
+                        <input type="text" placeholder="mês..." onChange={(event)=>{setMes(event.target.value)}}/>
+                        <input type="text" placeholder="ano..." onChange={(event)=>{setAno(event.target.value)}}/>
+                        <button onClick={handleHoleriteSearch}>ENVIAR</button>
+                        <h2>Salário:</h2>
+                        <p>{holerite.salario}</p>
+                        <h2>Bônus:</h2>
+                        <p>{holerite.bonus}</p>
+                    </div>
+
                 </div>
 
             </Box>
         </Modal>
 
         {/* -------------------------------------------------------- */}
+
+        {/*const handleDelete = async (id) => {
+            setPackageClicked(false);
+        const response = await deletePackageById(id);
+        setItemDeleted(!itemDeleted);
+        toast.success(response)
+        };
+
+        const handleSubmit = async (event) => {
+
+        event.preventDefault();
+        const body = {
+            name: name,
+            data_ida: dataIda,
+            data_volta: dataVolta,
+            details: details,
+            image_url: imageUrl
+        }
+        const response = await updatePackageById(packageDetail.id, body);
+        console.log(response);
+        console.log(body);
+        setItemUpdated(!itemUpdated);
+        if(response.status === 200){
+            toast.success(response.data);
+            setUpdateClicked(false);
+            close();
+        }
+        else{
+            toast.error(response.data);
+        }
+    
+        };
 
         {/* <div className="card-topic">
             {
@@ -252,6 +285,8 @@ const HomePage = ({goToLogin}) => {
                 </form>
             </Box>
         </Modal> */}
+
+        
         
     </div>
 }
@@ -261,7 +296,6 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    // width: 400,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,

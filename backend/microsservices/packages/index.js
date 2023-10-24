@@ -21,13 +21,13 @@ const holerites = [
         bonus: 250
     },
     {
-        user_id: 1,
+        user_id: 2,
         date: '01-05-2023',
         salario: 2450,
         bonus: 400
     },
     {
-        user_id: 1,
+        user_id: 2,
         date: '01-06-2023',
         salario: 2670,
         bonus: 500
@@ -36,7 +36,7 @@ const holerites = [
 ];
 
 
-//GET ALL
+//GET ALL HOLERITES
 app.get("/get-all-holerites", (req, res) => {
     res.json(holerites);
 })
@@ -52,77 +52,83 @@ app.get("/get-holerite-by-user-id", (req, res) => {
     res.status(400).send("Holerite inválido")
 })
 
-// //CREATE PACKAGE
-// app.post("/create-package", (req, res) => {
-//     if (req.body.name === "" || req.body.name === undefined) {
-//         res.status(400).send("Nome inválido");
-//         return;
-//     }
-//     if (req.body.data_ida === "" || req.body.data_ida === undefined) {
-//         res.status(400).send("Data Ida inválida");
-//         return;
-//     }
-//     if (req.body.data_volta === "" || req.body.data_volta === undefined) {
-//         res.status(400).send("Data Volta inválida");
-//         return;
-//     }
-//     if (handleValidDates(req.body.data_ida, req.body.data_volta)) {
-//         res.status(400).send("Data Inicial deve ser anterior a Data Volta");
-//         return;
-//     }
+// GET HOLERITE BY USER_ID AND DATE
+app.get("/get-holerite-by-user-id-and-date", (req, res) => {
+    const userId = parseInt(req.query.user_id);
+    const dateToFind = req.query.date;
 
-//     const newPackage = {
-//         id: packages[packages.length - 1].id + 1,
-//         name: req.body.name,
-//         data_ida: req.body.data_ida,
-//         data_volta: req.body.data_volta,
-//         details: req.body.details,
-//         image_url: req.body.image_url
-//     };
-//     packages.push(newPackage);
-//     res.json(newPackage);
-// })
+    const holeriteToFind = holerites.find((value) => {
+        return userId === value.user_id && dateToFind === value.date;
+    });
 
-// //DELETE PACKAGE BY ID
-// app.delete("/delete-package-by-id", (req, res) => {
-//     packages.forEach((value, index) => {
-//         if (parseInt(req.query.id) === value.id) {
-//             packages.splice(index, 1);
-//             res.status(200).send("Deletado com sucesso!");
-//             return;
-//         }
-//     })
-//     res.status(400).send("ID inválido");
-// })
+    if (holeriteToFind) {
+        res.json(holeriteToFind);
+    } else {
+        res.status(400).send("Holerite inválido");
+    }
+});
 
-// //UPDATE PACKAGE BY ID
-// app.put("/update-package-by-id", (req, res) => {
-//     if (req.query.id === undefined || req.query.id === null) {
-//         res.status(400).send("Nenhum ID selecionado");
-//         return;
-//     }
-//     packages.forEach((value) => {
-//         if (parseInt(req.query.id) === value.id) {
-//             if (req.body.name === undefined || req.body.name === "" || req.body.data_ida === undefined || req.body.data_ida == ""
-//                 || req.body.data_volta === undefined || req.body.data_volta == "" || req.body.details === undefined || req.body.details === "") {
-//                 res.status(400).send("Não é possível alterar o pacote");
-//                 return;
-//             }
 
-//             if (handleValidDates(req.body.data_ida, req.body.data_volta)) {
-//                 res.status(400).send("Data Inicial deve ser anterior a Data Volta")
-//                 return;
-//             }
 
-//             value.name = req.body.name;
-//             value.data_ida = req.body.data_ida;
-//             value.data_volta = req.body.data_volta;
-//             value.details = req.body.details;
-//             value.image_url = req.body.image_url;
-//             res.status(200).send("Atualizado com sucesso!");
-//         }
-//     })
-// })
+//CREATE HOLERITE
+app.post("/create-package", (req, res) => {
+    if (req.body.name === "" || req.body.name === undefined) {
+        res.status(400).send("Nome inválido");
+        return;
+    }
+    const newHolerite = {
+        user_id: req.body.user_id,
+        date: req.body.date,
+        salario: req.body.salario,
+        bonus: req.body.bonus,
+    };
+    holerites.push(newHolerite);
+    res.json(newHolerite);
+})
+
+//DELETE HOLERITE BY ID AND DATE
+app.delete("/delete-holerite-by-user-id-and-date", (req, res) => {
+    const userId = parseInt(req.query.user_id);
+    const dateToDelete = req.query.date;
+
+    const indexToDelete = holerites.findIndex((value) => {
+        return userId === value.user_id && dateToDelete === value.date;
+    });
+
+    if (indexToDelete !== -1) {
+        holerites.splice(indexToDelete, 1);
+        res.status(200).send("Deletado com sucesso!");
+    } else {
+        res.status(400).send("Combinação de ID de usuário e data inválida");
+    }
+});
+
+//UPDATE HOLERITE BY ID AND DATE
+app.put("/update-holerite-by-user-id-and-date", (req, res) => {
+    if (req.body.date === undefined || req.body.date === "" || req.body.salario === undefined || req.body.salario === "" || req.body.bonus === undefined || req.body.bonus === "") {
+        res.status(400).send("Não é possível alterar o pacote");
+        return;
+    }
+
+    const userId = parseInt(req.body.user_id);
+    const dateToUpdate = req.body.date;
+
+    let updated = false;
+
+    holerites.forEach((value) => {
+        if (userId === value.user_id && dateToUpdate === value.date) {
+            value.salario = req.body.salario;
+            value.bonus = req.body.bonus;
+            updated = true;
+        }
+    });
+
+    if (updated) {
+        res.status(200).send("Atualizado com sucesso!");
+    } else {
+        res.status(400).send("Combinação de ID de usuário e data inválida");
+    }
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
