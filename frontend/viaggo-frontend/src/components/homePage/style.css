@@ -172,6 +172,17 @@
     font-size: 1.3rem;
 }
 
+.holerite-buttons{
+    width: 175%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10%;
+}
+
+.total{
+    color: #4B8CE0;
+}
+
 /* Layout shit */
 
 

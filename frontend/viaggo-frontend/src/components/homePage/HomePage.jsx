@@ -1,12 +1,12 @@
 import { Box, Icon, Modal } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getAllPackages, getHoleriteByUserIdAndDate, deletePackageById, updatePackageById } from "../../services/package.services";
+import { getHoleriteByUserIdAndDate } from "../../services/holerite.services";
 import { getUserById } from "../../services/user.services";
 import "./style.css";
 import { FaTrash, FaPlaneArrival, FaPlaneDeparture} from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import { GrUpdate } from 'react-icons/gr';
-import { BiSolidPencil, BiLogOut } from 'react-icons/bi';
+import { BiSolidPencil, BiLogOut, BiSolidAddToQueue } from 'react-icons/bi';
 import { toast } from "react-toastify";
 import avatar from "../../assets/avatarIcon.png"
 import holeriteIcon from "../../assets/holeriteIcon.png"
@@ -39,8 +39,8 @@ const HomePage = ({goToLogin}) => {
 
     useEffect(() => {
         const requestData = async () => {
-            const response = await getAllPackages();
-            setPackages(response);
+            // const response = await getAllPackages();
+            // setPackages(response);
 
             // -------- Setando user logado --------
             const userLoggedIn = await getUserById(2);
@@ -76,6 +76,10 @@ const HomePage = ({goToLogin}) => {
         setHoleriteClicked(true)
     }
     
+    const handleAddHolerite = async () => {
+        setHoleriteClicked(true)
+    }
+
     const close = () => setProfileClicked(false);
     const closeHolerite = () => setHoleriteClicked(false);
 
@@ -152,8 +156,10 @@ const HomePage = ({goToLogin}) => {
             <Box sx={style_holerite}>
                 
                 <div className="holerite-modal">
-                    <div className="holerite-pic">
-                        
+                    <div className="holerite-buttons">
+                        <BiSolidPencil className="update" onClick={() => {return}}></BiSolidPencil>
+                        <BiSolidAddToQueue className="insert" onClick={() => {return}}></BiSolidAddToQueue>
+                        <AiOutlineClose className="close" onClick={closeHolerite}></AiOutlineClose>
                     </div>
                     <h1>Holerites de {user.name}</h1>
                     <div className="holerite-text">
@@ -180,12 +186,36 @@ const HomePage = ({goToLogin}) => {
 
                         <div className="holerite-text">
                             <div className="salario">
-                                <span id="title">Salário: </span>
-                                {holerite.salario !== undefined ? <span>{`R$ ${holerite.salario}`}</span> : <span>Não existe salário</span>}
+                                <span id="title">Salário Base: </span>
+                                {holerite.salario !== undefined ? <span>{`R$ ${holerite.salario}`}</span> : <span>R$ 0</span>}
                             </div>
                             <div className="bonus">
-                                <span id="title">Bônus: </span>
-                                {holerite.bonus !== undefined ? <span>{`R$ ${holerite.bonus}`}</span> : <span>Não existe bônus</span>}
+                                <span id="title">Comissão: </span>
+                                {holerite.comissao !== undefined ? <span>{`R$ ${holerite.comissao}`}</span> : <span>R$ 0</span>}
+                            </div>
+                            <div className="beneficios">
+                                <span id="title">Benefícios: </span>
+                                {holerite.beneficios !== undefined ? <span>{`R$ ${holerite.beneficios}`}</span> : <span>R$ 0</span>}
+                            </div>
+                            <div className="horas-extras">
+                                <span id="title">Horas Extras: </span>
+                                {holerite.horas_extras !== undefined ? <span>{`R$ ${holerite.horas_extras}`}</span> : <span>R$ 0</span>}
+                            </div>
+                            <div className="plano-saude">
+                                <span id="title">Plano de Saúde: </span>
+                                {holerite.plano_saude !== undefined ? <span>{`R$ ${holerite.plano_saude}`}</span> : <span>R$ 0</span>}
+                            </div>
+                            <div className="inss">
+                                <span id="title">INSS: </span>
+                                {holerite.inss !== undefined ? <span>{`R$ ${holerite.inss}`}</span> : <span>R$ 0</span>}
+                            </div>
+                            <div className="irff">
+                                <span id="title">IRFF: </span>
+                                {holerite.irff !== undefined ? <span>{`R$ ${holerite.irff}`}</span> : <span>R$ 0</span>}
+                            </div>
+                            <div className="total">
+                                <span id="title">Total: </span>
+                                {(parseFloat(holerite.salario) + parseFloat(holerite.comissao) + parseFloat(holerite.beneficios) + parseFloat(holerite.horas_extras) + parseFloat(holerite.plano_saude) + parseFloat(holerite.inss) + parseFloat(holerite.irff)) !== NaN ? <span>{`R$ ${parseFloat(holerite.salario) + parseFloat(holerite.comissao) + parseFloat(holerite.beneficios) + parseFloat(holerite.horas_extras) + parseFloat(holerite.plano_saude) + parseFloat(holerite.inss) + parseFloat(holerite.irff)}`}</span> : <span>R$ 0</span>}
                             </div>
                         </div>
                     </div>
@@ -334,7 +364,7 @@ const style_holerite = {
     top: '50%',
     left: '50%',
     width: '25%',
-    height: '60%',
+    height: '80%',
     transform: 'translate(-50%, -50%)',
     bgcolor: 'background.paper',
     border: '2px solid #000',

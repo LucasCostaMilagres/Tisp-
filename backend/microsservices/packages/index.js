@@ -12,25 +12,45 @@ const holerites = [
         user_id: 1,
         date: '01-03-2023',
         salario: 2309,
-        bonus: 300
+        comissao: 300,
+        beneficios: 200,
+        horas_extras: 290,
+        plano_saude: 178,
+        inss: 1200,
+        irff: 450
     },
     {
         user_id: 1,
         date: '01-04-2023',
         salario: 2400,
-        bonus: 250
+        comissao: 250,
+        beneficios: 200,
+        horas_extras: 290,
+        plano_saude: 178,
+        inss: 1200,
+        irff: 450
     },
     {
         user_id: 2,
         date: '01-05-2023',
         salario: 2450,
-        bonus: 400
+        comissao: 400,
+        beneficios: 200,
+        horas_extras: 290,
+        plano_saude: 0,
+        inss: 1200,
+        irff: 450
     },
     {
         user_id: 2,
         date: '01-06-2023',
         salario: 2670,
-        bonus: 500
+        comissao: 500,
+        beneficios: 200,
+        horas_extras: 290,
+        plano_saude: 178,
+        inss: 1200,
+        irff: 450
     },
     
 ];
@@ -71,16 +91,22 @@ app.get("/get-holerite-by-user-id-and-date", (req, res) => {
 
 
 //CREATE HOLERITE
-app.post("/create-package", (req, res) => {
-    if (req.body.name === "" || req.body.name === undefined) {
-        res.status(400).send("Nome inválido");
+app.post("/create-holerite", (req, res) => {
+    if (req.body.date === "" || req.body.date === undefined || req.body.salario === "" || req.body.salario === undefined || req.body.comissao === "" || req.body.comissao === undefined || req.body.beneficios === "" || req.body.beneficios === undefined || req.body.horas_extras === "" || req.body.horas_extras === undefined || req.body.plano_saude === "" || req.body.plano_saude === undefined || req.body.inss === "" || req.body.inss === undefined || req.body.irff === "" || req.body.irff === undefined) {
+        res.status(400).send("Preencha os campos corretamente");
         return;
     }
     const newHolerite = {
         user_id: req.body.user_id,
         date: req.body.date,
         salario: req.body.salario,
-        bonus: req.body.bonus,
+        comissao: req.body.comissao,
+        beneficios: req.body.beneficios,
+        horas_extras: req.body.horas_extras,
+        plano_saude: req.body.plano_saude,
+        inss: req.body.inss,
+        irff: req.body.irff
+
     };
     holerites.push(newHolerite);
     res.json(newHolerite);
@@ -105,8 +131,8 @@ app.delete("/delete-holerite-by-user-id-and-date", (req, res) => {
 
 //UPDATE HOLERITE BY ID AND DATE
 app.put("/update-holerite-by-user-id-and-date", (req, res) => {
-    if (req.body.date === undefined || req.body.date === "" || req.body.salario === undefined || req.body.salario === "" || req.body.bonus === undefined || req.body.bonus === "") {
-        res.status(400).send("Não é possível alterar o pacote");
+    if (req.body.date === "" || req.body.date === undefined || req.body.salario === "" || req.body.salario === undefined || req.body.comissao === "" || req.body.comissao === undefined || req.body.beneficios === "" || req.body.beneficios === undefined || req.body.horas_extras === "" || req.body.horas_extras === undefined || req.body.plano_saude === "" || req.body.plano_saude === undefined || req.body.inss === "" || req.body.inss === undefined || req.body.irff === "" || req.body.irff === undefined) {
+        res.status(400).send("Não é possível alterar o holerite");
         return;
     }
 
@@ -118,7 +144,12 @@ app.put("/update-holerite-by-user-id-and-date", (req, res) => {
     holerites.forEach((value) => {
         if (userId === value.user_id && dateToUpdate === value.date) {
             value.salario = req.body.salario;
-            value.bonus = req.body.bonus;
+            value.comissao = req.body.comissao;
+            value.beneficios = req.body.beneficios;
+            value.horas_extras = req.body.horas_extras;
+            value.plano_saude = req.body.plano_saude;
+            value.inss = req.body.inss;
+            value.irff = req.body.irff;
             updated = true;
         }
     });
