@@ -5,14 +5,19 @@ import "./style.css";
 import { FaTrash, FaPlaneArrival, FaPlaneDeparture} from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import { GrUpdate } from 'react-icons/gr';
-import { BiSolidPencil } from 'react-icons/bi';
+import { BiSolidPencil, BiLogOut } from 'react-icons/bi';
 import { toast } from "react-toastify";
+import avatar from "../../assets/avatarIcon.png"
+import holerite from "../../assets/holeriteIcon.png"
+import logo from "../../assets/logo.png"
+import background from "../../assets/background.png"
+// import { getLoggedIn } from "../../services/user.services";
 
-const HomePage = () => {
+const HomePage = ({goToLogin}) => {
     
     const [packages, setPackages] = useState([]);
-    const [packageClicked, setPackageClicked] = useState(false);
-    const [packageDetail, setPackageDetail] = useState([]);
+    const [profileClicked, setProfileClicked] = useState(false);
+    const [holeriteClicked, setHoleriteClicked] = useState(false);
     const [itemDeleted, setItemDeleted] = useState(false);
     const [updateClicked, setUpdateClicked] = useState(false);
     const [itemUpdated, setItemUpdated] = useState(false)
@@ -23,6 +28,7 @@ const HomePage = () => {
     const [details, setDetails] = useState('');
     const [imageUrl, setImageUrl] = useState('');
 
+    const [user, setUser] = useState('');
 
     useEffect(() => {
         const requestData = async () => {
@@ -35,49 +41,137 @@ const HomePage = () => {
 
 
     const handleClick = async (id) => {
-        const response = await getPackageById(id);
-        setPackageDetail(response);
-        setPackageClicked(true)
+        // const response = await getPackageById(id);
+        // setPackagDetail(response);
+        setProfileClicked(true)
     };
     
     
-    const handleDelete = async (id) => {
-        setPackageClicked(false);
-        const response = await deletePackageById(id);
-        setItemDeleted(!itemDeleted);
-        toast.success(response)
-    };
+    // const handleDelete = async (id) => {
+    //     setPackageClicked(false);
+    //     const response = await deletePackageById(id);
+    //     setItemDeleted(!itemDeleted);
+    //     toast.success(response)
+    // };
 
-    const handleSubmit = async (event) => {
+    // const handleSubmit = async (event) => {
 
-        event.preventDefault();
-        const body = {
-            name: name,
-            data_ida: dataIda,
-            data_volta: dataVolta,
-            details: details,
-            image_url: imageUrl
-        }
-        const response = await updatePackageById(packageDetail.id, body);
-        console.log(response);
-        console.log(body);
-        setItemUpdated(!itemUpdated);
-        if(response.status === 200){
-            toast.success(response.data);
-            setUpdateClicked(false);
-            close();
-        }
-        else{
-            toast.error(response.data);
-        }
+    //     event.preventDefault();
+    //     const body = {
+    //         name: name,
+    //         data_ida: dataIda,
+    //         data_volta: dataVolta,
+    //         details: details,
+    //         image_url: imageUrl
+    //     }
+    //     const response = await updatePackageById(packageDetail.id, body);
+    //     console.log(response);
+    //     console.log(body);
+    //     setItemUpdated(!itemUpdated);
+    //     if(response.status === 200){
+    //         toast.success(response.data);
+    //         setUpdateClicked(false);
+    //         close();
+    //     }
+    //     else{
+    //         toast.error(response.data);
+    //     }
         
-    };
+    // };
+
+    const handleProfile = async () => {
+        setProfileClicked(true)
+    }
+
+    const handleHolerite = async () => {
+        setHoleriteClicked(true)
+    }
     
-    const close = () => setPackageClicked(false);
-    const closeUpdate = () => setUpdateClicked(false);
+    const close = () => setProfileClicked(false);
+    const closeHolerite = () => setHoleriteClicked(false);
 
     return <div className="container-homepage">
-        <div className="card-topic">
+
+        <div className="quit-icon"
+        onClick={goToLogin}
+        >
+            <BiLogOut></BiLogOut>
+        </div>
+
+        <div className="logo-icon">
+            <img src={logo} alt="logo" 
+            height={200}
+            width={200}
+            />
+        </div>
+
+        <div className="home-welcome">
+            <h1 className="text">BEM VINDO AO BAGULHO</h1>
+            <h2 className="text" id="text2">ESCOLHA UMA DAS OPÇÕES ABAIXO PARA ACESSAR</h2>
+        </div>
+
+        {/* -------------------- TAMO AQUIIIII -------------------- */}
+        
+        
+        <div className="home-cards">
+            <div className="item" onClick={handleProfile}>
+                <div className="item-topic">
+                    <img src={avatar} className="avatar" alt="avatarIcon" height={200} width={200}/>
+                    <h1>PERFIL</h1>
+                </div>
+            </div>
+            <div className="item" onClick={handleHolerite}>
+                <div className="item-topic">
+                    <img src={holerite} className="holerite" alt="holeriteIcon" height={200} width={200}/>
+                    <h1>HOLERITE</h1>
+                </div>
+            </div>
+        </div>
+        
+
+        <Modal
+            open={profileClicked}
+            onClose={close}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={style}>
+                
+                <div className="profile-modal">
+                    <div className="profile-pic">
+                        <img src={avatar} alt="avatarIcon" height={350} width={350}/>
+                    </div>
+                    <div className="profile-text">
+                        <h1>Dados do Usuário</h1>
+                        <h2>Nome:</h2>
+                        <p>Felipe Matos Silvieri</p>
+                        <h2>Email:</h2>
+                        <p>felipesilvieri@yahoo.com</p>
+                        <h2>CPF:</h2>
+                        <p>521.240.288-39</p>
+                    </div>
+                </div>
+            </Box>
+        </Modal>
+
+        <Modal
+            open={holeriteClicked}
+            onClose={closeHolerite}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={style}>
+                
+                <div className="holerite-modal">
+                    <h1>Holerite</h1>
+                </div>
+
+            </Box>
+        </Modal>
+
+        {/* -------------------------------------------------------- */}
+
+        {/* <div className="card-topic">
             {
                 packages.map(item => {
                     return <div onClick={() => handleClick(item.id)} className="full-card">
@@ -96,39 +190,9 @@ const HomePage = () => {
                     </div>
                 })
             }
-        </div>
-        <Modal
-            open={packageClicked}
-            onClose={close}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={style}>
-                
-                <div className="package-detail-close-delete">
-                    <AiOutlineClose
-                        onClick={close}
-                    ></AiOutlineClose>
-                    <BiSolidPencil
-                        onClick={() => setUpdateClicked(true)}
-                    >
-                    </BiSolidPencil>
-                    <FaTrash
-                        onClick={() => handleDelete(packageDetail.id)}
-                    ></FaTrash>
-                </div>
-                
-                <div className="package-detail-text">
-                    <h1>Detalhes do Pacote</h1>
-                    <h3>{packageDetail.name}</h3>
-                    <p>Data Ida: {packageDetail.data_ida}</p>
-                    <p>Data Volta: {packageDetail.data_volta}</p>
-                    <p>Detalhes Local: {packageDetail.details}</p>
-                </div>
-            </Box>
-        </Modal>
+        </div> */}
         
-        <Modal
+        {/* <Modal
             open={updateClicked}
             onClose={closeUpdate}
             aria-labelledby="modal-modal-title"
@@ -187,7 +251,7 @@ const HomePage = () => {
                     <button type="submit">Atualizar Pacote</button>
                 </form>
             </Box>
-        </Modal>
+        </Modal> */}
         
     </div>
 }
@@ -197,7 +261,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    // width: 400,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,

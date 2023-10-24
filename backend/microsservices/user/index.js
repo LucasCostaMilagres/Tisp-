@@ -18,7 +18,8 @@ const users = [
         email: "dav@gmail.com",
         cpf: "11122233344",
         password: "batata123",
-        mfa: true
+        mfa: true,
+        loggedin: false
     },
     {
         id: 2,
@@ -26,7 +27,8 @@ const users = [
         email: "gab@gmail.com",
         cpf: "55566677789",
         password: "baaasada",
-        mfa: false
+        mfa: false,
+        loggedin: false
     },
     {
         id: 3,
@@ -34,7 +36,8 @@ const users = [
         email: "lip@gmail.com",
         cpf: "52100029312",
         password: "arregacamoleza",
-        mfa: false
+        mfa: false,
+        loggedin: false
     }
 ];
 
@@ -116,7 +119,8 @@ app.post("/create-user", (req, res) => {
         name: req.body.name,
         email: req.body.email,
         cpf: req.body.cpf,
-        password: req.body.password
+        password: req.body.password,
+        loggedIn: false
     };
     users.push(newUser);
     res.json(newUser);
@@ -159,12 +163,6 @@ app.post("/login", (req, res) => {
             return;
         }
     }
-    // users.forEach(value => {
-    //     if ((req.body.login === value.email || req.body.login === value.cpf) && req.body.password === value.password) {
-    //         res.send("Bem vindo ao Viaggo");
-    //         return;
-    //     }
-    // })
     res.status(400).send("Preencha os campos corretamente");
 });
 
@@ -251,6 +249,8 @@ app.post("/auth-code", (req, res) => {
 
     res.status(200).send("Autenticação feita com sucesso!");
 });
+
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

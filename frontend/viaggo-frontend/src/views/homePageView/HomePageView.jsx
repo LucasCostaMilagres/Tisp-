@@ -7,11 +7,14 @@ const HomePageView = () => {
     const navigate = useNavigate()
 
     return <div>
-        <NavBar
+        {/* <NavBar
             goToHome={() => navigate('/home')}
             goToLogin={() => navigate("/login")}
+        /> */}
+
+        <HomePage 
+            goToLogin={() => navigate('/login')}
         />
-        <HomePage />
     </div>
 }
 

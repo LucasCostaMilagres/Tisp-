@@ -1,106 +1,138 @@
 .container-homepage {
     width: 100%;
-    height: 86vh;
-    background-color: #4307b2;
-}
-
-.card-topic {
-    width: 100%;
-    display: flex;
-    height: inherit;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-evenly;
-    /* box-shadow: 5px 5px 5px black; */
-}
-
-.card-topic div {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    padding: 0;
-    list-style-type: none;
-    border-radius: 15px;
-}
-
-.full-card:hover{
-    transform: scale(1.1);
-}
-
-.card-topic div {
-    width: 300px;
-    /* background-color: #ccc; */
-    height: 300px;
-    border-color: black;
-}
-
-.full-card {
-    display: flex;
-    transition-duration: .3s;
-}
-
-.package-detail-close-delete{
-    display: flex;
-    justify-content: space-between;
-}
-
-.package-detail-text {
-    font-family: 'Abel', sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.package-name {
-    display: flex;
-    text-align: center;
-    font-size: 2.75em;
-}
-
-.date {
-    display: flex;
-    color: rgb(255, 255, 255);
-    align-items: center;
-    padding: 5px;
-    font-size: 1.3em;
-}
-
-.package-image{
-    position: absolute;
-}
-
-.package-image img{
-    border-radius: 10px;
-    box-shadow: 6px 6px 7px rgba(0, 0, 0, 0.315);
-}
-
-.package-details{
-    display: flex;
+    height: 100vh;
+    /* background-color: #4307b2; */
+    background: linear-gradient(to top, #4307b2, #366bb1);
     position: relative;
-    color: white;
-    font-family: 'Abel', sans-serif;
-    font-weight: 900;
-    text-shadow: 7px 5px 10px black;
-    
 }
 
-.update-close{
+/* CSS do WELCOME */
+.home-welcome{
     display: flex;
-    justify-content: flex-end;;
-}
-
-.update-form {
-    display: flex;
-    padding: 5px;
     flex-direction: column;
+    justify-content: center;
+    text-align: center;
     font-family: 'Abel', sans-serif;
+    color: #4B8CE0;
+    font-size: 1.5em;
+    margin: 0;
+    padding-top: 175px;
 }
 
-.form-item {
-    
-    justify-content: flex-start;
-    margin-bottom: 20px;
+.home-welcome .text{
+    margin: 0;
+}
+
+#text2{
+    color: rgba(255, 255, 255, 0.771);
+    font-weight: 100;
+    font-size: 1.1sem;
+}
+
+.logo-icon{
+    position: absolute;
+    transform: scale(.8);
+    margin-left: -20px;
+}
+
+
+/* CSS do HOME CARDS */
+
+.home-cards{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+}
+
+/* Daqui pra frente, CSS do botão perfil */
+
+.item{
+    display: flex;
+    justify-content: center;
+    margin-inline: 50px;
+    cursor: default;
+}
+
+.item-topic{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    height: 350px;
+    width: 350px;
+    border-radius: 15px;
+    background-color: rgb(186, 186, 186);
+    font-family: 'Abel', sans-serif;
+    color: white;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.274);
+    transition-duration: .15s;
+    cursor: default;
+}
+
+.item-topic:hover{
+    background-color: rgb(124, 124, 124);
+    transform: scale(0.95);
+    cursor: default;
+}
+
+.avatar {
+    filter: invert(100%);
+    cursor: default;
+}
+.holerite {
+    filter: invert(100%);
+    cursor: default;
+}
+
+.profile-modal{
+    font-family: 'Abel', sans-serif;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.profile-text{
+    padding-inline: 150px;
+    white-space: nowrap;
+}
+
+
+/* --------------------------------------- */
+/* CSS do Modal Holerite */
+/* --------------------------------------- */
+
+.holerite-modal{
+    font-family: 'Abel',sans-serif;
+
+}
+
+
+
+/* Layout shit */
+
+
+.layout-circles{
+    position: absolute;
+    width: 300px;
+    height: 500px;
+    background-color: rgba(0, 0, 0, 0.075);
+    border-radius: 100%;
+    margin-top: 50vh;
+    margin-left: -20vh;
+}
+
+/* QUIT */
+.quit-icon{
+    top: 5vh;
+    right: 5vh;
+    position: absolute;
+    filter: invert(100%);
+    transform: scale(2.0);
+    transition-duration: .15s;
+}
+
+.quit-icon:hover{
+    transform: scale(1.8);
 }

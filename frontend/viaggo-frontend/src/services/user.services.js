@@ -66,3 +66,9 @@ export const authCode = async (body) => {
         return error.response;
     }
 }
+
+// Alterar aquii --------------------
+
+export const loggedIn = async () =>{
+    return
+}
