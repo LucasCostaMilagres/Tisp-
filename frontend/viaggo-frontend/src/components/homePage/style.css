@@ -107,10 +107,55 @@
 
 .holerite-modal{
     font-family: 'Abel',sans-serif;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
+.date-selection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
+.month-selector{
+    font-family: 'Abel',sans-serif;
+    font-size: 1.5rem;
+    border-style: none;
+    margin-top: 10%;
+    width: 70%;
+}
+
+.enviar-holerite-search{
+    margin-top: 10%;
+    font-family: 'Abel', sans-serif;
+    width: 50%;
+    height: 40%;
+    border-radius: 25px;
+    background-color: #4b8ce0;
+    color: #ece9e8;
+    border: none;
+    font-size: 1.2rem;
+    margin-bottom: 8%;
+}
+
+.holerite-text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size:1.3rem;
+}
+
+.holerite-text #title{
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.year-input{
+    text-align: center;
+}
 
 /* Layout shit */
 

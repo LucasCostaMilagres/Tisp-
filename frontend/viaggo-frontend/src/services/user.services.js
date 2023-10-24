@@ -2,6 +2,18 @@ import axios from "axios";
 
 const _baseUrl = "http://localhost:5000";   //colocar a sua porta do localhost aqui
 
+export const getUserById = async (userId) => {
+    const _endpoint = `/get-user-by-id?id=${userId}`; // Passa o ID como um parâmetro de consulta na URL
+    try {
+        const response = await axios.get(_baseUrl + _endpoint);
+        if (response.status === 200) {
+            return response.data; // Retorna os dados do usuário encontrado
+        }
+    } catch (error) {
+        return error.response.data; // Retorna a mensagem de erro se houver
+    }
+}
+
 export const login = async (data) => {
     const _endpoint = "/login";
     try {

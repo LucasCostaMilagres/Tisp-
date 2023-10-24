@@ -1,6 +1,7 @@
 import { Box, Modal } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getAllPackages, getPackageById, deletePackageById, updatePackageById } from "../../services/package.services";
+import { getAllPackages, getHoleriteByUserIdAndDate, deletePackageById, updatePackageById } from "../../services/package.services";
+import { getUserById } from "../../services/user.services";
 import "./style.css";
 import { FaTrash, FaPlaneArrival, FaPlaneDeparture} from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -8,7 +9,7 @@ import { GrUpdate } from 'react-icons/gr';
 import { BiSolidPencil, BiLogOut } from 'react-icons/bi';
 import { toast } from "react-toastify";
 import avatar from "../../assets/avatarIcon.png"
-import holerite from "../../assets/holeriteIcon.png"
+import holeriteIcon from "../../assets/holeriteIcon.png"
 import logo from "../../assets/logo.png"
 import background from "../../assets/background.png"
 // import { getLoggedIn } from "../../services/user.services";
@@ -29,55 +30,43 @@ const HomePage = ({goToLogin}) => {
     const [imageUrl, setImageUrl] = useState('');
 
     const [user, setUser] = useState('');
+    const [holerite, setHolerite] = useState('');
+
+    const [mes, setMes] = useState('');
+    const [ano, setAno] = useState('');
+
+    const [selectedMonth, setSelectedMonth] = useState("01");
 
     useEffect(() => {
         const requestData = async () => {
             const response = await getAllPackages();
             setPackages(response);
+
+            // -------- Setando user logado --------
+            const userLoggedIn = await getUserById(2);
+            setUser(userLoggedIn);
         };
 
         requestData();
     }, [itemDeleted,itemUpdated]);
 
+    const handleMonthChange = (e) => {
+        setSelectedMonth(e.target.value);
+    };
 
     const handleClick = async (id) => {
-        // const response = await getPackageById(id);
-        // setPackagDetail(response);
         setProfileClicked(true)
     };
     
-    
-    // const handleDelete = async (id) => {
-    //     setPackageClicked(false);
-    //     const response = await deletePackageById(id);
-    //     setItemDeleted(!itemDeleted);
-    //     toast.success(response)
-    // };
+    const handleHoleriteSearch = async () => {
+        const mesStr = mes.toString();
+        const anoStr = ano.toString();
 
-    // const handleSubmit = async (event) => {
-
-    //     event.preventDefault();
-    //     const body = {
-    //         name: name,
-    //         data_ida: dataIda,
-    //         data_volta: dataVolta,
-    //         details: details,
-    //         image_url: imageUrl
-    //     }
-    //     const response = await updatePackageById(packageDetail.id, body);
-    //     console.log(response);
-    //     console.log(body);
-    //     setItemUpdated(!itemUpdated);
-    //     if(response.status === 200){
-    //         toast.success(response.data);
-    //         setUpdateClicked(false);
-    //         close();
-    //     }
-    //     else{
-    //         toast.error(response.data);
-    //     }
-        
-    // };
+        console.log("Mês:", mesStr);
+        console.log("Ano:", anoStr);
+        const holeriteSearched = await getHoleriteByUserIdAndDate(user.id,`01-${mesStr}-${anoStr}`);
+        setHolerite(holeriteSearched);
+    }
 
     const handleProfile = async () => {
         setProfileClicked(true)
@@ -122,7 +111,7 @@ const HomePage = ({goToLogin}) => {
             </div>
             <div className="item" onClick={handleHolerite}>
                 <div className="item-topic">
-                    <img src={holerite} className="holerite" alt="holeriteIcon" height={200} width={200}/>
+                    <img src={holeriteIcon} className="holerite" alt="holeriteIcon" height={200} width={200}/>
                     <h1>HOLERITE</h1>
                 </div>
             </div>
@@ -144,11 +133,11 @@ const HomePage = ({goToLogin}) => {
                     <div className="profile-text">
                         <h1>Dados do Usuário</h1>
                         <h2>Nome:</h2>
-                        <p>Felipe Matos Silvieri</p>
+                        <p>{user.name}</p>
                         <h2>Email:</h2>
-                        <p>felipesilvieri@yahoo.com</p>
+                        <p>{user.email}</p>
                         <h2>CPF:</h2>
-                        <p>521.240.288-39</p>
+                        <p>{user.cpf}</p>
                     </div>
                 </div>
             </Box>
@@ -160,16 +149,81 @@ const HomePage = ({goToLogin}) => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box sx={style}>
+            <Box sx={style_holerite}>
                 
                 <div className="holerite-modal">
                     <h1>Holerite</h1>
+                    <div className="holerite-text">
+                        <h2>Digite uma data:</h2>
+                        <div className="date-selection">
+                            <input className="year-input" type="text" placeholder="ano..." onChange={(event)=>{setAno(event.target.value)}}/>
+                            <select className="month-selector" onChange={(event) => {setMes(event.target.value)}}>
+                                <option value="01">Janeiro</option>
+                                <option value="02">Fevereiro</option>
+                                <option value="03">Março</option>
+                                <option value="04">Abril</option>
+                                <option value="05">Maio</option>
+                                <option value="06">Junho</option>
+                                <option value="07">Julho</option>
+                                <option value="08">Agosto</option>
+                                <option value="09">Setembro</option>
+                                <option value="10">Outubro</option>
+                                <option value="11">Novembro</option>
+                                <option value="12">Dezembro</option>
+
+                            </select>
+                            <button onClick={handleHoleriteSearch} className="enviar-holerite-search">ENVIAR</button>
+                        </div>
+
+                        <div className="holerite-text">
+                            <div className="salario">
+                                <span id="title">Salário: </span>
+                                <span>{`R$ ${holerite.salario}`}</span>
+                            </div>
+                            <div className="bonus">
+                                <span id="title">Bônus: </span>
+                                <span>{`R$ ${holerite.bonus}`}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </Box>
         </Modal>
 
         {/* -------------------------------------------------------- */}
+
+        {/*const handleDelete = async (id) => {
+            setPackageClicked(false);
+        const response = await deletePackageById(id);
+        setItemDeleted(!itemDeleted);
+        toast.success(response)
+        };
+
+        const handleSubmit = async (event) => {
+
+        event.preventDefault();
+        const body = {
+            name: name,
+            data_ida: dataIda,
+            data_volta: dataVolta,
+            details: details,
+            image_url: imageUrl
+        }
+        const response = await updatePackageById(packageDetail.id, body);
+        console.log(response);
+        console.log(body);
+        setItemUpdated(!itemUpdated);
+        if(response.status === 200){
+            toast.success(response.data);
+            setUpdateClicked(false);
+            close();
+        }
+        else{
+            toast.error(response.data);
+        }
+    
+        };
 
         {/* <div className="card-topic">
             {
@@ -252,6 +306,8 @@ const HomePage = ({goToLogin}) => {
                 </form>
             </Box>
         </Modal> */}
+
+        
         
     </div>
 }
@@ -261,11 +317,25 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    // width: 400,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
 
+const style_holerite = {
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: '50%',
+    left: '50%',
+    width: '25%',
+    height: '60%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 export default HomePage
