@@ -2,7 +2,7 @@
     width: 100%;
     height: 100vh;
     /* background-color: #4307b2; */
-    background: linear-gradient(to top, #4307b2, #366bb1);
+    background: linear-gradient(to top, #3f06a9, #6438b5);
     position: relative;
 }
 
@@ -33,6 +33,8 @@
     position: absolute;
     transform: scale(.8);
     margin-left: -20px;
+    width: 60%;
+    height: 45%;
 }
 
 

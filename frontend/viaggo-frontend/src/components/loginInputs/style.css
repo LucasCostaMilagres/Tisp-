@@ -88,7 +88,7 @@ section.login-container {
     margin: 0;
     font-size: 1.2rem;
     color: #4b8ce0;
-    background-color: #29056b;
+    background-color: transparent;
     border: none;
     text-decoration: underline;
     transition: all 0.2s ease-in;
