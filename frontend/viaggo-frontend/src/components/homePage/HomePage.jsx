@@ -178,11 +178,11 @@ const HomePage = ({goToLogin}) => {
                         <div className="holerite-text">
                             <div className="salario">
                                 <span id="title">Salário: </span>
-                                <span>{`R$ ${holerite.salario}`}</span>
+                                {holerite.salario !== undefined ? <span>{`R$ ${holerite.salario}`}</span> : <span>Não existe salário</span>}
                             </div>
                             <div className="bonus">
                                 <span id="title">Bônus: </span>
-                                <span>{`R$ ${holerite.bonus}`}</span>
+                                {holerite.bonus !== undefined ? <span>{`R$ ${holerite.bonus}`}</span> : <span>Não existe bônus</span>}
                             </div>
                         </div>
                     </div>
