@@ -1,4 +1,4 @@
-import { Box, Modal } from "@mui/material";
+import { Box, Icon, Modal } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getAllPackages, getHoleriteByUserIdAndDate, deletePackageById, updatePackageById } from "../../services/package.services";
 import { getUserById } from "../../services/user.services";
@@ -152,6 +152,9 @@ const HomePage = ({goToLogin}) => {
             <Box sx={style_holerite}>
                 
                 <div className="holerite-modal">
+                    <div className="holerite-pic">
+                        
+                    </div>
                     <h1>Holerites de {user.name}</h1>
                     <div className="holerite-text">
                         <h2>Digite uma data:</h2>
