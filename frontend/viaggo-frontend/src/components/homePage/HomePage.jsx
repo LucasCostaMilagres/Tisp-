@@ -35,6 +35,8 @@ const HomePage = ({goToLogin}) => {
     const [mes, setMes] = useState('');
     const [ano, setAno] = useState('');
 
+    const [selectedMonth, setSelectedMonth] = useState("01");
+
     useEffect(() => {
         const requestData = async () => {
             const response = await getAllPackages();
@@ -43,15 +45,14 @@ const HomePage = ({goToLogin}) => {
             // -------- Setando user logado --------
             const userLoggedIn = await getUserById(2);
             setUser(userLoggedIn);
-
-            // // -------- Setando holerite --------
-            // const holeriteMockada = await getHoleriteByUserIdAndDate(1,"01-03-2023");
-            // setHolerite(holeriteMockada);
         };
 
         requestData();
     }, [itemDeleted,itemUpdated]);
 
+    const handleMonthChange = (e) => {
+        setSelectedMonth(e.target.value);
+    };
 
     const handleClick = async (id) => {
         setProfileClicked(true)
@@ -66,8 +67,6 @@ const HomePage = ({goToLogin}) => {
         const holeriteSearched = await getHoleriteByUserIdAndDate(user.id,`01-${mesStr}-${anoStr}`);
         setHolerite(holeriteSearched);
     }
-
-
 
     const handleProfile = async () => {
         setProfileClicked(true)
@@ -150,21 +149,43 @@ const HomePage = ({goToLogin}) => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box sx={style}>
+            <Box sx={style_holerite}>
                 
                 <div className="holerite-modal">
                     <h1>Holerite</h1>
                     <div className="holerite-text">
                         <h2>Digite uma data:</h2>
-                        <input type="text" placeholder="mês..." onChange={(event)=>{setMes(event.target.value)}}/>
-                        <input type="text" placeholder="ano..." onChange={(event)=>{setAno(event.target.value)}}/>
-                        <button onClick={handleHoleriteSearch}>ENVIAR</button>
-                        <h2>Salário:</h2>
-                        <p>{holerite.salario}</p>
-                        <h2>Bônus:</h2>
-                        <p>{holerite.bonus}</p>
-                    </div>
+                        <div className="date-selection">
+                            <input className="year-input" type="text" placeholder="ano..." onChange={(event)=>{setAno(event.target.value)}}/>
+                            <select className="month-selector" onChange={(event) => {setMes(event.target.value)}}>
+                                <option value="01">Janeiro</option>
+                                <option value="02">Fevereiro</option>
+                                <option value="03">Março</option>
+                                <option value="04">Abril</option>
+                                <option value="05">Maio</option>
+                                <option value="06">Junho</option>
+                                <option value="07">Julho</option>
+                                <option value="08">Agosto</option>
+                                <option value="09">Setembro</option>
+                                <option value="10">Outubro</option>
+                                <option value="11">Novembro</option>
+                                <option value="12">Dezembro</option>
 
+                            </select>
+                            <button onClick={handleHoleriteSearch} className="enviar-holerite-search">ENVIAR</button>
+                        </div>
+
+                        <div className="holerite-text">
+                            <div className="salario">
+                                <span id="title">Salário: </span>
+                                <span>{`R$ ${holerite.salario}`}</span>
+                            </div>
+                            <div className="bonus">
+                                <span id="title">Bônus: </span>
+                                <span>{`R$ ${holerite.bonus}`}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </Box>
@@ -302,4 +323,19 @@ const style = {
     p: 4,
 };
 
+const style_holerite = {
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: '50%',
+    left: '50%',
+    width: '25%',
+    height: '60%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 export default HomePage
