@@ -79,6 +79,18 @@ export const authCode = async (body) => {
     }
 }
 
+export const updateAvatarById = async (id, userData) => {
+    const _endpoint = `${_baseUrl}/update-avatar-by-id?id=${id}`
+    try {
+      const response = await axios.put(_endpoint, userData);
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (error) {
+      return error.response.data;
+    }
+  };
+
 // Alterar aquii --------------------
 
 export const loggedIn = async () =>{

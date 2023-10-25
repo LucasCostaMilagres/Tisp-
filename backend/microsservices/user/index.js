@@ -19,6 +19,7 @@ const users = [
         cpf: "11122233344",
         password: "batata123",
         mfa: true,
+        avatar_url: "",
         loggedin: false
     },
     {
@@ -27,6 +28,7 @@ const users = [
         email: "gab@gmail.com",
         cpf: "55566677789",
         password: "baaasada",
+        avatar_url: "",
         mfa: false,
         loggedin: false
     },
@@ -36,6 +38,7 @@ const users = [
         email: "lip@gmail.com",
         cpf: "52100029312",
         password: "arregacamoleza",
+        avatar_url:"",
         mfa: false,
         loggedin: false
     }
@@ -120,6 +123,7 @@ app.post("/create-user", (req, res) => {
         email: req.body.email,
         cpf: req.body.cpf,
         password: req.body.password,
+        avatar_url:"",
         loggedIn: false
     };
     users.push(newUser);
@@ -154,6 +158,22 @@ app.put("/update-user-by-id", (req, res) => {
         }
     })
 });
+
+
+app.put("/update-avatar-by-id", (req, res) => {
+    users.forEach((value) => {
+        if (parseInt(req.query.id) === value.id) {
+            if (req.body.image_url === undefined || req.body.image_url == "") {
+                res.status(400).send("Não é possível alterar a imagem");
+                return;
+            }
+
+            value.image_url = req.body.image_url;
+            res.json(value);
+        }
+    })
+});
+
 
 //LOGIN
 app.post("/login", (req, res) => {

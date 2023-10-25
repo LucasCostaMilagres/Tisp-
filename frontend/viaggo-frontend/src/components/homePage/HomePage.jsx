@@ -1,7 +1,7 @@
 import { Box, Icon, Modal } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getHoleriteByUserIdAndDate, createHolerite } from "../../services/holerite.services";
-import { getUserById } from "../../services/user.services";
+import { getUserById, updateAvatarById } from "../../services/user.services";
 import "./style.css";
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiSolidPencil, BiLogOut, BiSolidAddToQueue } from 'react-icons/bi';
@@ -37,6 +37,8 @@ const HomePage = ({goToLogin}) => {
     const [irff, setIrff] = useState('');
     
     const [selectedMonth, setSelectedMonth] = useState("01");
+
+    const [userAvatar, setUserAvatar] = useState('');
 
     useEffect(() => {
         const requestData = async () => {
@@ -146,7 +148,7 @@ const HomePage = ({goToLogin}) => {
                 </div>
             </div>
             <div className="item" onClick={handleHolerite}>
-                <div className="item-topic">
+                <div className="item-topic" id="holerite">
                     <img src={holeriteIcon} className="holerite" alt="holeriteIcon" height={200} width={200}/>
                     <h1>HOLERITE</h1>
                 </div>
@@ -164,6 +166,7 @@ const HomePage = ({goToLogin}) => {
                 
                 <div className="profile-modal">
                     <div className="profile-pic">
+                        <button>Alterar Imagem</button>
                         <img src={avatar} alt="avatarIcon" height={350} width={350}/>
                     </div>
                     <div className="profile-text">

@@ -32,7 +32,7 @@
 .logo-icon{
     position: absolute;
     transform: scale(.8);
-    margin-left: -20px;
+    margin-left: -5%;
     width: 60%;
     height: 45%;
 }
@@ -74,7 +74,7 @@
 }
 
 .item-topic:hover{
-    background-color: rgb(124, 124, 124);
+    background-color: #63D2FF;
     transform: scale(0.95);
     cursor: default;
 }
