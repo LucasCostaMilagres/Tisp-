@@ -36,9 +36,9 @@ export const createHolerite = async (data) => {
     try {
       const response = await axios.post(_baseUrl + _endpoint, data);
       if (response.status === 200) {
-        return response.data;
+        return response.status;
       }
     } catch (error) {
-      return error.response.data;
+      return error.response.status;
     }
   };

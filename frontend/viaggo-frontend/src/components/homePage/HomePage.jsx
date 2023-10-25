@@ -93,20 +93,33 @@ const HomePage = ({goToLogin}) => {
             irff: irff
         }
 
-        await createHolerite(data)
+        const criarHolerite = await createHolerite(data)
 
-        setSalario('');
-        setComissao('');
-        setBeneficios('');
-        setHorasExtras('');
-        setPlanoSaude('');
-        setInss('');
-        setIrff('');
-
-        setCreateClicked(false);
+        if(criarHolerite === 200){
+            setSalario('');
+            setAnoCreate('');
+            setMesCreate('');
+            setComissao('');
+            setBeneficios('');
+            setHorasExtras('');
+            setPlanoSaude('');
+            setInss('');
+            setIrff('');
+    
+            setCreateClicked(false);
+            console.log(criarHolerite);
+            toast.success("Holerite inserido com sucesso!");
+        }
+        else{
+            console.log(criarHolerite);
+            toast.error("Erro ao inserir holerite!");
+        }
     }
 
     const closeUpdate = () => {
+        if (itemUpdated) {
+            setItemUpdated(false);
+        }
         setUpdateClicked(false);
     }
 
@@ -250,7 +263,7 @@ const HomePage = ({goToLogin}) => {
                             </div>
                             <div className="total">
                                 <span id="title">Total: </span>
-                                {(parseFloat(holerite.salario) + parseFloat(holerite.comissao) + parseFloat(holerite.beneficios) + parseFloat(holerite.horas_extras) + parseFloat(holerite.plano_saude) + parseFloat(holerite.inss) + parseFloat(holerite.irff)) !== NaN ? <span>{`R$ ${parseFloat(holerite.salario) + parseFloat(holerite.comissao) + parseFloat(holerite.beneficios) + parseFloat(holerite.horas_extras) + parseFloat(holerite.plano_saude) + parseFloat(holerite.inss) + parseFloat(holerite.irff)}`}</span> : <span>R$ 0</span>}
+                                {isNaN(parseFloat(holerite.salario) + parseFloat(holerite.comissao) + parseFloat(holerite.beneficios) + parseFloat(holerite.horas_extras) + parseFloat(holerite.plano_saude) + parseFloat(holerite.inss) + parseFloat(holerite.irff)) == false? <span>{`R$ ${parseFloat(holerite.salario) + parseFloat(holerite.comissao) + parseFloat(holerite.beneficios) + parseFloat(holerite.horas_extras) + parseFloat(holerite.plano_saude) + parseFloat(holerite.inss) + parseFloat(holerite.irff)}`}</span> : <span>R$ 0</span>}
                             </div>
                         </div>
                     </div>
@@ -335,8 +348,8 @@ const style_holerite = {
     justifyContent: 'center',
     top: '50%',
     left: '50%',
-    width: '25%',
-    height: '80%',
+    width: '30%',
+    height: '85%',
     transform: 'translate(-50%, -50%)',
     bgcolor: 'background.paper',
     border: '2px solid #000',

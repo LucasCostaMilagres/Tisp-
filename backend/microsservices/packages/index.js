@@ -116,7 +116,7 @@ app.post("/create-holerite-by-user-id-and-date", (req, res) => {
 
     };
     holerites.push(newHolerite);
-    res.json(newHolerite);
+    res.status(200).json(newHolerite);
 })
 
 //DELETE HOLERITE BY ID AND DATE

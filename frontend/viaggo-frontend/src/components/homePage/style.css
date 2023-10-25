@@ -180,11 +180,12 @@
     width: 175%;
     display: flex;
     justify-content: space-between;
-    margin-top: 10%;
+    margin-top: 15%;
 }
 
 .total{
     color: #4B8CE0;
+    margin-bottom: 5%;
 }
 
 .create-holerite{
@@ -270,4 +271,24 @@ input::placeholder{
 
 .quit-icon:hover{
     transform: scale(1.8);
+}
+
+.insert{
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.insert:hover{
+    transform: scale(1.4);
+    transition-duration: .15s;
+}
+
+.close{
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.close:hover{
+    transform: scale(1.4);
+    transition-duration: .15s;
 }
