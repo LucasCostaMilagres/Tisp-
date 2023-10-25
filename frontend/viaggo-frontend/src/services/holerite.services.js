@@ -32,7 +32,7 @@ export const getHoleriteByUserIdAndDate = async (userId, date) => {
 }
 
 export const createHolerite = async (data) => {
-    const _endpoint = "/create-holerite";
+    const _endpoint = "/create-holerite-by-user-id-and-date";
     try {
       const response = await axios.post(_baseUrl + _endpoint, data);
       if (response.status === 200) {

@@ -1,40 +1,41 @@
 import { Box, Icon, Modal } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getHoleriteByUserIdAndDate } from "../../services/holerite.services";
+import { getHoleriteByUserIdAndDate, createHolerite } from "../../services/holerite.services";
 import { getUserById } from "../../services/user.services";
 import "./style.css";
-import { FaTrash, FaPlaneArrival, FaPlaneDeparture} from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
-import { GrUpdate } from 'react-icons/gr';
 import { BiSolidPencil, BiLogOut, BiSolidAddToQueue } from 'react-icons/bi';
 import { toast } from "react-toastify";
 import avatar from "../../assets/avatarIcon.png"
 import holeriteIcon from "../../assets/holeriteIcon.png"
 import logo from "../../assets/logo.png"
-import background from "../../assets/background.png"
 // import { getLoggedIn } from "../../services/user.services";
 
 const HomePage = ({goToLogin}) => {
     
-    const [packages, setPackages] = useState([]);
     const [profileClicked, setProfileClicked] = useState(false);
     const [holeriteClicked, setHoleriteClicked] = useState(false);
     const [itemDeleted, setItemDeleted] = useState(false);
     const [updateClicked, setUpdateClicked] = useState(false);
+    const [createClicked, setCreateClicked] = useState(false);
     const [itemUpdated, setItemUpdated] = useState(false)
-    
-    const [name, setName] = useState('');
-    const [dataIda, setDataIda] = useState('');
-    const [dataVolta, setDataVolta] = useState('');
-    const [details, setDetails] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
 
     const [user, setUser] = useState('');
     const [holerite, setHolerite] = useState('');
-
-    const [mes, setMes] = useState('');
+    
+    const [mes, setMes] = useState('01');
     const [ano, setAno] = useState('');
 
+    const [mesCreate, setMesCreate] = useState('01');
+    const [AnoCreate, setAnoCreate] = useState('');
+    const [salario, setSalario] = useState('');
+    const [comissao, setComissao] = useState('');
+    const [beneficios, setBeneficios] = useState('');
+    const [horasExtras, setHorasExtras] = useState('');
+    const [planoSaude, setPlanoSaude] = useState('');
+    const [inss, setInss] = useState('');
+    const [irff, setIrff] = useState('');
+    
     const [selectedMonth, setSelectedMonth] = useState("01");
 
     useEffect(() => {
@@ -43,7 +44,7 @@ const HomePage = ({goToLogin}) => {
             // setPackages(response);
 
             // -------- Setando user logado --------
-            const userLoggedIn = await getUserById(2);
+            const userLoggedIn = await getUserById(1);
             setUser(userLoggedIn);
         };
 
@@ -76,8 +77,39 @@ const HomePage = ({goToLogin}) => {
         setHoleriteClicked(true)
     }
     
-    const handleAddHolerite = async () => {
-        setHoleriteClicked(true)
+    const handleAddHolerite = async () => {  
+        const date = `01-${mesCreate}-${AnoCreate}`
+        const data = {
+            user_id: user.id,
+            date: date,
+            salario: salario,
+            comissao: comissao,
+            beneficios: beneficios,
+            horas_extras: horasExtras,
+            plano_saude: planoSaude,
+            inss: inss,
+            irff: irff
+        }
+
+        await createHolerite(data)
+
+        setSalario('');
+        setComissao('');
+        setBeneficios('');
+        setHorasExtras('');
+        setPlanoSaude('');
+        setInss('');
+        setIrff('');
+
+        setCreateClicked(false);
+    }
+
+    const closeUpdate = () => {
+        setUpdateClicked(false);
+    }
+
+    const closeCreate = () => {
+        setCreateClicked(false);
     }
 
     const close = () => setProfileClicked(false);
@@ -157,11 +189,11 @@ const HomePage = ({goToLogin}) => {
                 
                 <div className="holerite-modal">
                     <div className="holerite-buttons">
-                        <BiSolidPencil className="update" onClick={() => {return}}></BiSolidPencil>
-                        <BiSolidAddToQueue className="insert" onClick={() => {return}}></BiSolidAddToQueue>
-                        <AiOutlineClose className="close" onClick={closeHolerite}></AiOutlineClose>
+                        {/* <BiSolidPencil className="update" onClick={() => setUpdateClicked(true)}></BiSolidPencil> */}
+                        <BiSolidAddToQueue className="insert" onClick={() => setCreateClicked(true)} title="Insira Ou Atualize Um Holerite"></BiSolidAddToQueue>
+                        <AiOutlineClose className="close" onClick={closeHolerite} title="Fechar"></AiOutlineClose>
                     </div>
-                    <h1>Holerites de {user.name}</h1>
+                    <h1 className="holerite-title">Holerites de {user.name}</h1>
                     <div className="holerite-text">
                         <h2>Digite uma data:</h2>
                         <div className="date-selection">
@@ -224,61 +256,6 @@ const HomePage = ({goToLogin}) => {
             </Box>
         </Modal>
 
-        {/* -------------------------------------------------------- */}
-
-        {/*const handleDelete = async (id) => {
-            setPackageClicked(false);
-        const response = await deletePackageById(id);
-        setItemDeleted(!itemDeleted);
-        toast.success(response)
-        };
-
-        const handleSubmit = async (event) => {
-
-        event.preventDefault();
-        const body = {
-            name: name,
-            data_ida: dataIda,
-            data_volta: dataVolta,
-            details: details,
-            image_url: imageUrl
-        }
-        const response = await updatePackageById(packageDetail.id, body);
-        console.log(response);
-        console.log(body);
-        setItemUpdated(!itemUpdated);
-        if(response.status === 200){
-            toast.success(response.data);
-            setUpdateClicked(false);
-            close();
-        }
-        else{
-            toast.error(response.data);
-        }
-    
-        };
-
-        {/* <div className="card-topic">
-            {
-                packages.map(item => {
-                    return <div onClick={() => handleClick(item.id)} className="full-card">
-                            <div className="package-image">
-                                <img className="package-image" src={item.image_url} alt={`Package ${item.name} Image`} width={300} height={300}/>
-                            </div>
-                        <div className="package-details">
-                            <div className="package-name">
-                                <span>{item.name}</span>
-                            </div>
-                            <div className="date" id="date-text">
-                                <span><FaPlaneDeparture></FaPlaneDeparture>{item.data_ida}</span>
-                                <span><FaPlaneArrival></FaPlaneArrival>{item.data_volta}</span>
-                            </div>
-                        </div>
-                    </div>
-                })
-            }
-        </div> */}
-        
         {/* <Modal
             open={updateClicked}
             onClose={closeUpdate}
@@ -286,62 +263,54 @@ const HomePage = ({goToLogin}) => {
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
-                    <div className="update-close">
-                        <AiOutlineClose
-                            onClick={closeUpdate}
-                        ></AiOutlineClose>
-                    </div>
-                <form onSubmit={handleSubmit} className="update-form">
-                    <div className="form-item">
-                        <label htmlFor="name">Nome:</label>
-                        <input
-                            type="text"
-                            id="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-item">
-                        <label htmlFor="dataIda">Data de Ida:</label>
-                        <input
-                            type="date"
-                            id="dataIda"
-                            value={dataIda}
-                            onChange={(e) => setDataIda(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-item">
-                        <label htmlFor="dataVolta">Data de Volta:</label>
-                        <input
-                            type="date"
-                            id="dataVolta"
-                            value={dataVolta}
-                            onChange={(e) => setDataVolta(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-item">
-                        <label htmlFor="details">Detalhes:</label>
-                        <textarea
-                            id="details"
-                            value={details}
-                            onChange={(e) => setDetails(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-item">
-                        <label htmlFor="image-url">Url Imagem:</label>
-                        <input
-                            id="image-url"
-                            value={imageUrl}
-                            onChange={(e) => setImageUrl(e.target.value)}
-                        />
-                    </div>
-                    <button type="submit">Atualizar Pacote</button>
-                </form>
+                
+                <div className="update-holerite">
+                    <h1>UPDATE</h1>
+                </div>
             </Box>
         </Modal> */}
 
-        
-        
+        <Modal
+            open={createClicked}
+            onClose={closeCreate}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={styleUpdate}>
+                
+                <div className="create-holerite">
+                    <h1 className="insert-title">Inserir Novo Holerite</h1>
+                    <input className="year-input" type="text" placeholder="Digite o ano desejado" onChange={(event)=>{setAnoCreate(event.target.value)}}/>
+                    <select className="month-selector" onChange={(event) => {setMesCreate(event.target.value)}}>
+                        <option value="01">Janeiro</option>
+                        <option value="02">Fevereiro</option>
+                        <option value="03">Março</option>
+                        <option value="04">Abril</option>
+                        <option value="05">Maio</option>
+                        <option value="06">Junho</option>
+                        <option value="07">Julho</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Setembro</option>
+                        <option value="10">Outubro</option>
+                        <option value="11">Novembro</option>
+                        <option value="12">Dezembro</option>
+                    </select>
+                    <h2>Digite os valores (em reais):</h2>
+                    <div className="insert-data-inputs">
+                        <input type="text" className="create-input" placeholder="Salário Base" onChange={(e) => {setSalario(e.target.value)}}/>
+                        <input type="text" className="create-input" placeholder="Comissão" onChange={(e) => {setComissao(e.target.value)}}/>
+                        <input type="text" className="create-input" placeholder="Benefícios" onChange={(e) => {setBeneficios(e.target.value)}}/>
+                        <input type="text" className="create-input" placeholder="Horas Extras" onChange={(e) => {setHorasExtras(e.target.value)}}/>
+                        <input type="text" className="create-input" placeholder="Plano de Saúde" onChange={(e) => {setPlanoSaude(e.target.value)}}/>
+                        <input type="text" className="create-input" placeholder="INSS" onChange={(e) => {setInss(e.target.value)}}/>
+                        <input type="text" className="create-input" placeholder="IRFF" onChange={(e) => {setIrff(e.target.value)}}/>
+                    </div>
+                    <div className="insert-button-pos">
+                        <button onClick={handleAddHolerite} className="insert-button">INSERIR</button></div>
+                </div>
+            </Box>
+        </Modal>
+   
     </div>
 }
 
@@ -365,6 +334,22 @@ const style_holerite = {
     left: '50%',
     width: '25%',
     height: '80%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
+
+const styleUpdate = {
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: '50%',
+    left: '50%',
+    width: '30%',
+    height: '85%',
     transform: 'translate(-50%, -50%)',
     bgcolor: 'background.paper',
     border: '2px solid #000',

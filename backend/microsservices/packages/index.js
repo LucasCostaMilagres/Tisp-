@@ -91,7 +91,14 @@ app.get("/get-holerite-by-user-id-and-date", (req, res) => {
 
 
 //CREATE HOLERITE
-app.post("/create-holerite", (req, res) => {
+app.post("/create-holerite-by-user-id-and-date", (req, res) => {
+    holerites.forEach(value => {
+        if (req.body.user_id === value.user_id && req.body.date === value.date) {
+            res.status(400).send("Holerite já cadastrado");
+            return;
+        }
+    })
+    
     if (req.body.date === "" || req.body.date === undefined || req.body.salario === "" || req.body.salario === undefined || req.body.comissao === "" || req.body.comissao === undefined || req.body.beneficios === "" || req.body.beneficios === undefined || req.body.horas_extras === "" || req.body.horas_extras === undefined || req.body.plano_saude === "" || req.body.plano_saude === undefined || req.body.inss === "" || req.body.inss === undefined || req.body.irff === "" || req.body.irff === undefined) {
         res.status(400).send("Preencha os campos corretamente");
         return;

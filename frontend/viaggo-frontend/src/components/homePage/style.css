@@ -157,6 +157,10 @@
     margin-bottom: 5%;
 }
 
+.holerite-title{
+    color: #3f76bd;
+}
+
 .holerite-text #title{
     font-weight: bold;
     font-size: 1.5rem;
@@ -181,6 +185,64 @@
 
 .total{
     color: #4B8CE0;
+}
+
+.create-holerite{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Abel',sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+
+input::placeholder{
+    color: rgba(0, 0, 0, 0.688);
+    text-align: center;
+}
+
+.create-input{
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.insert-button{
+    margin-top: 10%;
+    font-family: 'Abel', sans-serif;
+    width: 50%;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #4b8ce0;
+    color: #ece9e8;
+    border: none;
+    font-size: 1.2rem;
+    margin-bottom: 25%;
+    cursor: pointer;  
+}
+.insert-button-pos{
+    display: flex;
+    justify-content: center;
+}
+
+.insert-title{
+    color: #4b8ce0;
+    margin-top: 10px;
+}
+
+.insert-data-inputs{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+
+
+.close-create{
+    display: flex;
+    justify-content: end;
 }
 
 /* Layout shit */
