@@ -178,12 +178,35 @@ app.put("/update-avatar-by-id", (req, res) => {
 //LOGIN
 app.post("/login", (req, res) => {
     for (let user of users) {
+        user.loggedin = false
+    }
+    for (let user of users) {
         if ((req.body.login === user.email || req.body.login === user.cpf) && req.body.password === user.password) {
+            user.loggedin = true;
             res.send("Bem vindo ao Viaggo");
             return;
         }
     }
     res.status(400).send("Preencha os campos corretamente");
+});
+
+//LOGOFF
+app.post("/logoff", (req, res) => {
+    for (let user of users) {
+        user.loggedin = false;
+    }
+    res.send("Todos os usuários foram desconectados.");
+});
+
+//GET LOGGEDIN
+app.get("/get-loggedin", (req, res) => {
+    const loggedInUser = users.find(user => user.loggedin === true);
+
+    if (loggedInUser) {
+        res.json(loggedInUser);
+    } else {
+        res.status(404).send("Nenhum usuário está logado.");
+    }
 });
 
 //GET ALL MFA-USER
@@ -270,6 +293,22 @@ app.post("/auth-code", (req, res) => {
     res.status(200).send("Autenticação feita com sucesso!");
 });
 
+app.put('/update-avatar-url', (req, res) => {
+    const userId = parseInt(req.body.id);
+    const avatarUrl = req.body.avatar_url;
+
+    // Encontre o usuário com base no ID fornecido
+    const user = users.find(user => user.id === userId);
+
+    if (!user) {
+        return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    // Atualize o avatar_url do usuário com a URL fornecida
+    user.avatar_url = avatarUrl;
+
+    return res.json({ message: 'Avatar atualizado com sucesso' });
+});
 
 
 app.listen(port, () => {

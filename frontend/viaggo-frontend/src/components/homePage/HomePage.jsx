@@ -1,7 +1,7 @@
 import { Box, Icon, Modal } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getHoleriteByUserIdAndDate, createHolerite } from "../../services/holerite.services";
-import { getUserById, updateAvatarById } from "../../services/user.services";
+import { getUserById, updateAvatarById, logoff, getLoggedInUser, updateImageUrl } from "../../services/user.services";
 import "./style.css";
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiSolidPencil, BiLogOut, BiSolidAddToQueue } from 'react-icons/bi';
@@ -18,7 +18,8 @@ const HomePage = ({goToLogin}) => {
     const [itemDeleted, setItemDeleted] = useState(false);
     const [updateClicked, setUpdateClicked] = useState(false);
     const [createClicked, setCreateClicked] = useState(false);
-    const [itemUpdated, setItemUpdated] = useState(false)
+    const [itemUpdated, setItemUpdated] = useState(false);
+    const [userLoggedInId, setUserLoggedInId] = useState('');
 
     const [user, setUser] = useState('');
     const [holerite, setHolerite] = useState('');
@@ -40,14 +41,19 @@ const HomePage = ({goToLogin}) => {
 
     const [userAvatar, setUserAvatar] = useState('');
 
+    const [imageUrl, setImageUrl] = useState('');
+    const [imageUrlClicked, setImageUrlClicked] = useState('');
+
     useEffect(() => {
         const requestData = async () => {
-            // const response = await getAllPackages();
-            // setPackages(response);
+            
+            const userLoggedIn = await getLoggedInUser();
+            console.log(userLoggedIn.name)
+            console.log(userLoggedIn.id)
+            setUserLoggedInId(userLoggedIn.id)
 
-            // -------- Setando user logado --------
-            const userLoggedIn = await getUserById(1);
-            setUser(userLoggedIn);
+            const userLogged = await getUserById(userLoggedIn.id);
+            setUser(userLogged);
         };
 
         requestData();
@@ -127,13 +133,37 @@ const HomePage = ({goToLogin}) => {
         setCreateClicked(false);
     }
 
+    const handleQuit = async () => {
+        goToLogin();
+        logoff();
+    }
+
+    const closeImageUrl = () => {
+        setImageUrlClicked(false);
+    }
+
+    const handleImageUrl = () => {
+        closeImageUrl();
+        updateImageUrl(user.id, imageUrl);
+        window.location.reload();
+    }
+
+    const imageChoosen = () => {
+        if(user.avatar_url === '' || user.avatar_url === undefined){
+            return avatar
+        }
+        else{
+            return user.avatar_url
+        }
+    }
+
     const close = () => setProfileClicked(false);
     const closeHolerite = () => setHoleriteClicked(false);
 
     return <div className="container-homepage">
 
         <div className="quit-icon"
-        onClick={goToLogin}
+        onClick={handleQuit}
         >
             <BiLogOut></BiLogOut>
         </div>
@@ -146,7 +176,7 @@ const HomePage = ({goToLogin}) => {
         </div>
 
         <div className="home-welcome">
-            <h1 className="text">BEM VINDO AO BAGULHO</h1>
+            <h1 className="text">BEM VINDO AO TISP</h1>
             <h2 className="text" id="text2">ESCOLHA UMA DAS OPÇÕES ABAIXO PARA ACESSAR</h2>
         </div>
 
@@ -179,8 +209,8 @@ const HomePage = ({goToLogin}) => {
                 
                 <div className="profile-modal">
                     <div className="profile-pic">
-                        <button>Alterar Imagem</button>
-                        <img src={avatar} alt="avatarIcon" height={350} width={350}/>
+                        <button className="alterar-imagem" onClick={()=>setImageUrlClicked(true)}>Alterar Imagem</button>
+                        <img src={imageChoosen()} alt="avatarIcon" height={350} width={350} className="avatar-icon"/>
                     </div>
                     <div className="profile-text">
                         <h1>Dados do Usuário</h1>
@@ -272,20 +302,6 @@ const HomePage = ({goToLogin}) => {
             </Box>
         </Modal>
 
-        {/* <Modal
-            open={updateClicked}
-            onClose={closeUpdate}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={style}>
-                
-                <div className="update-holerite">
-                    <h1>UPDATE</h1>
-                </div>
-            </Box>
-        </Modal> */}
-
         <Modal
             open={createClicked}
             onClose={closeCreate}
@@ -323,6 +339,20 @@ const HomePage = ({goToLogin}) => {
                     </div>
                     <div className="insert-button-pos">
                         <button onClick={handleAddHolerite} className="insert-button">INSERIR</button></div>
+                </div>
+            </Box>
+        </Modal>
+
+        <Modal
+            open={imageUrlClicked}
+            onClose={closeImageUrl}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={style}>
+                <div className="image-url">
+                    <input className="image-url-input" type="text" placeholder="url da imagem..." onChange={(e)=>{setImageUrl(e.target.value)}}/>
+                    <button className="enviar-imagem" onClick={handleImageUrl}>ENVIAR</button>
                 </div>
             </Box>
         </Modal>

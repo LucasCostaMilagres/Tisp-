@@ -93,6 +93,51 @@ export const updateAvatarById = async (id, userData) => {
 
 // Alterar aquii --------------------
 
+// Método para fazer logoff de todos os usuários
+export const logoff = async () => {
+    const _endpoint = "/logoff";
+    try {
+        const response = await axios.post(_baseUrl + _endpoint);
+        if (response.status === 200) {
+            return true;
+        }
+    } catch (error) {
+        return error.response.data;
+    }
+}
+
+// Função para obter o usuário logado
+export const getLoggedInUser = async () => {
+    const _endpoint = "/get-loggedin";
+    try {
+        const response = await axios.get(_baseUrl + _endpoint);
+        if (response.status === 200) {
+            return response.data;
+        }
+    } catch (error) {
+        return error.response.data;
+    }
+}
+
+// Função para atualizar o avatar_url do usuário
+export const updateImageUrl = async (userId, avatarUrl) => {
+    const _endpoint = `/update-avatar-url`;
+    const requestData = {
+        id: userId,
+        avatar_url: avatarUrl,
+    };
+
+    try {
+        const response = await axios.put(_baseUrl + _endpoint, requestData);
+        if (response.status === 200) {
+            return response.data;
+        }
+    } catch (error) {
+        return error.response.data;
+    }
+};
+
+
 export const loggedIn = async () =>{
     return
 }
