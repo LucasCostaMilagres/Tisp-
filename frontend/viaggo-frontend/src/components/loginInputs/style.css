@@ -52,6 +52,7 @@ section.login-container {
     font-family: 'Abel', sans-serif;
     outline: none;
     color: #000;
+    text-align: center;
 }
 
 .password-input-container {

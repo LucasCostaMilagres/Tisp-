@@ -36,6 +36,17 @@
     width: 60%;
     height: 45%;
 }
+.logo-img{
+    margin-left: -3%;
+    margin-top: -3%;
+    transition-duration: .15s;
+    transition-timing-function: ease-in;
+}
+.logo-img:hover{
+    transform: scale(0.9);
+    margin-left: -3.5%;
+    margin-top: -3.5%;
+}
 
 
 /* CSS do HOME CARDS */
@@ -86,6 +97,7 @@
 
 .avatar-icon{
     border-radius: 100%;
+    object-fit: cover; /* Isso irá recortar a imagem para preencher o contêiner */
 }
 
 .alterar-imagem{
@@ -94,12 +106,18 @@
     width: 35%;
     height: 35px;
     border-radius: 10px;
-    background-color: #4b8ce0;
+    background-color: #3e71b5;
     color: #ece9e8;
     border: none;
     font-size: 1.2rem;
     cursor: pointer; 
+    transition-duration: .2s;
 }
+.alterar-imagem:hover{
+    transform: scale(0.9);
+    background-color: #2c4e7b;
+}
+
 .enviar-imagem{
     margin-top: 10px;
     font-family: 'Abel', sans-serif;

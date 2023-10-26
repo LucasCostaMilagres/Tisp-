@@ -17,7 +17,7 @@ const users = [
         name: "Davi",
         email: "dav@gmail.com",
         cpf: "11122233344",
-        password: "batata123",
+        password: "Batata123",
         mfa: true,
         avatar_url: "",
         loggedin: false
@@ -27,7 +27,7 @@ const users = [
         name: "Gabriel",
         email: "gab@gmail.com",
         cpf: "55566677789",
-        password: "baaasada",
+        password: "Testando321",
         avatar_url: "",
         mfa: false,
         loggedin: false
@@ -36,8 +36,8 @@ const users = [
         id: 3,
         name: "Felipe",
         email: "lip@gmail.com",
-        cpf: "52100029312",
-        password: "arregacamoleza",
+        cpf: "54100629312",
+        password: "Felipe098",
         avatar_url:"",
         mfa: false,
         loggedin: false

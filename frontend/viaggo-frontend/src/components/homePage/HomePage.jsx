@@ -165,13 +165,15 @@ const HomePage = ({goToLogin}) => {
         <div className="quit-icon"
         onClick={handleQuit}
         >
-            <BiLogOut></BiLogOut>
+            <BiLogOut title="Deslogar"></BiLogOut>
         </div>
 
         <div className="logo-icon">
             <img src={logo} alt="logo" 
+            className="logo-img"
             height={200}
             width={200}
+            title="Tisp - Folha de Pagamento"
             />
         </div>
 
@@ -210,7 +212,7 @@ const HomePage = ({goToLogin}) => {
                 <div className="profile-modal">
                     <div className="profile-pic">
                         <button className="alterar-imagem" onClick={()=>setImageUrlClicked(true)}>Alterar Imagem</button>
-                        <img src={imageChoosen()} alt="avatarIcon" height={350} width={350} className="avatar-icon"/>
+                        <img src={imageChoosen()} alt="avatarIcon" height={350} width={350} className="avatar-icon" title="Profile Picture"/>
                     </div>
                     <div className="profile-text">
                         <h1>Dados do Usuário</h1>
@@ -236,7 +238,7 @@ const HomePage = ({goToLogin}) => {
                 <div className="holerite-modal">
                     <div className="holerite-buttons">
                         {/* <BiSolidPencil className="update" onClick={() => setUpdateClicked(true)}></BiSolidPencil> */}
-                        <BiSolidAddToQueue className="insert" onClick={() => setCreateClicked(true)} title="Insira Ou Atualize Um Holerite"></BiSolidAddToQueue>
+                        <BiSolidAddToQueue className="insert" onClick={() => setCreateClicked(true)} title="Inserir Um Holerite"></BiSolidAddToQueue>
                         <AiOutlineClose className="close" onClick={closeHolerite} title="Fechar"></AiOutlineClose>
                     </div>
                     <h1 className="holerite-title">Holerites de {user.name}</h1>

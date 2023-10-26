@@ -45,7 +45,7 @@ const LoginInputs = () => {
         <form>
             <section className="login-container">
                 <div className="input-container">
-                    <input className="input" placeholder="CPF ou E-MAIL" onChange={(e) => setLoginInput(e.target.value)} />
+                    <input className="input" placeholder="CPF ou E-MAIL" onChange={(e) => setLoginInput(e.target.value)}/>
                     <div className="password-input-container">
                         <input className="input" type={typePasswordInput} placeholder="SENHA" onChange={(e) => setPasswordInput(e.target.value)} />
                         <div onClick={handlePasswordVisibility}>
