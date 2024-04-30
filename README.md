@@ -1,6 +1,4 @@
-# TISP - Folha de Pagamentos
-
-# Guia de Instalação e Execução
+# TISP - Folha de Pagamentos - Guia de Instalação e Execução
 
 ## Instalação de Dependências
 
